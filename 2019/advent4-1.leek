@@ -1,5 +1,3 @@
-let data = "231832-767346"
-
 var A = data.split('-')[0].split('').map(s => int(s.number()))
 var B = data.split('-')[1].split('').map(s => int(s.number()))
 
