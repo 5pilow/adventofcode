@@ -1,0 +1,45 @@
+let data = "231832-767346"
+
+var A = data.split('-')[0].split('').map(s => int(s.number()))
+var B = data.split('-')[1].split('').map(s => int(s.number()))
+
+var i = 0
+for a in [A[0]..B[0]] {
+    let al = a == A[0]
+    let ag = a == B[0]
+    for b in [al ? max(a, A[1]) : a..ag ? B[1] : 9] {
+        let bl = al and b == A[1]
+        let bg = ag and b == B[1]
+        for c in [bl ? max(b, A[2]) : b..bg ? B[2] : 9] {
+            let cl = bl and c == A[2]
+            let cg = bg and c == B[2]
+            for d in [cl ? max(c, A[3]) : c..cg ? B[3] : 9] {
+                let dl = cl and d == A[3]
+                let dg = cg and d == B[3]
+                for e in [dl ? max(d, A[4]) : d..dg ? B[4] : 9] {
+                    let el = dl and e == A[4]
+                    let eg = dg and e == B[4]
+                    for f in [el ? max(e, A[5]) : e..eg ? B[5] : 9] {
+                        if a == b or b == c or c == d or d == e or e == f {
+                            var s = 0
+                            var x = a
+                            for y in [a, b, c, d, e, f, -1] {
+                                if y == x {
+                                    s++
+                                } else {
+                                    if s == 2 {
+                                        i++
+                                        break
+                                    }
+                                    s = 1
+                                    x = y
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+i
