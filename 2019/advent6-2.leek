@@ -1,0 +1,20 @@
+let rel = data.lines().map(d => d / ')')
+
+let getparent = (rel, x) => rel.filter(r => r[1] == x)
+
+let getparents = (rel, x) => {
+	var p = []
+	while !(x == "COM") {
+		p += (x = getparent(rel, x)[0][0])
+	}
+	p
+}
+
+let p1 = getparents(rel, "SAN")
+let p2 = getparents(rel, "YOU")
+
+var i = 1
+while p1[|p1| - i] == p2[|p2| - i] {
+	i++
+}
+|p2| + |p1| - 2 * (i - 1)
