@@ -1,14 +1,13 @@
-var rel = data.lines().map(d => d.split(')'))
+let rel = data.lines().map(d => d / ')')
 var open = ['COM']
 var i = 0
 var d = 1
-while (open.size()) {
+while |open| {
 	var nopen = []
 	for o in open {
 		nopen += rel.filter(r => r[0] == o).map(r => r[1])
 	}
 	open = nopen
-	i += d * |open|
-	d++
+	i += d++ * |open|
 }
 i
