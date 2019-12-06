@@ -1,0 +1,46 @@
+let run = program => {
+    var p = 0
+    while (p < |program|) {
+		var s = program[p]
+		var inst = '' + s
+		var n = inst.size()
+		var opcode = int(inst.substring(n - min(n, 2), min(2, n)).number())
+		if opcode == 99 break
+		var i = 3
+		var m1 = i <= n ? int(inst.substring(n - i, 1).number()) : 0
+		i++;
+		var m2 = i <= n ? int(inst.substring(n - i, 1).number()) : 0
+		i++;
+		var m3 = i <= n ? int(inst.substring(n - i, 1).number()) : 0
+        var i1 = program[p + 1]
+        var i2 = program[p + 2]
+		var d = 0
+		var v = 0
+        if opcode == 1 {
+            var p1 = m1 == 1 ? i1 : program[i1]
+            var p2 = m2 == 1 ? i2 : program[i2]
+			v = p1 + p2
+			d = program[p + 3]
+			p += 4
+		} else if opcode == 2 {
+            var p1 = m1 == 1 ? i1 : program[i1]
+            var p2 = m2 == 1 ? i2 : program[i2]
+			v = p1 * p2
+			d = program[p + 3]
+			p += 4
+		} else if opcode == 3 {
+			v = 1
+			d = program[p + 1]
+			p += 2
+		} else {
+            var p1 = m1 == 1 ? i1 : program[i1]
+			d = program[p + 1]
+			v = p1
+            p += 2
+            print(p1)
+        }
+        program[d] = v
+    }
+    program[0]
+}
+run((data / ',').map(s => int(s.number())))
