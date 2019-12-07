@@ -1,0 +1,97 @@
+let run = program, a, programs_p, phase, input => {
+	var p = programs_p[a]
+	var ninput = 0
+	var output = -1l
+	while (p < |program|) {
+		var inst = '' + program[p]
+		var n = inst.size()
+		var opcode = int(inst.substring(n - min(n, 2), min(2, n)).number())
+		if opcode == 99 break
+		var i = 3
+		var m1 = i <= n ? int(inst.substring(n - i, 1).number()) : 0
+		i++;
+		var m2 = i <= n ? int(inst.substring(n - i, 1).number()) : 0
+		i++;
+		var m3 = i <= n ? int(inst.substring(n - i, 1).number()) : 0
+		var i1 = program[p + 1]
+		var i2 = program[p + 2]
+		var d = 0l
+		var v = program[0]
+		if opcode == 1 {
+			var p1 = m1 == 1 ? i1 : program[i1]
+			var p2 = m2 == 1 ? i2 : program[i2]
+			v = p1 + p2
+			d = program[p + 3]
+			p += 4
+		} else if opcode == 2 {
+			var p1 = m1 == 1 ? i1 : program[i1]
+			var p2 = m2 == 1 ? i2 : program[i2]
+			v = p1 * p2
+			d = program[p + 3]
+			p += 4
+		} else if opcode == 3 {
+			v = ninput == 0 ? phase : input
+			ninput++
+			d = program[p + 1]
+			p += 2
+		} else if opcode == 4 {
+			var p1 = m1 == 1 ? i1 : program[i1]
+			p += 2
+			output = p1
+			break
+		} else if opcode == 5 {
+			var p1 = m1 == 1 ? i1 : program[i1]
+			var p2 = m2 == 1 ? i2 : program[i2]
+			p += (p1 != 0 ? (p2 - p) : 3)
+		} else if opcode == 6 {
+			var p1 = m1 == 1 ? i1 : program[i1]
+			var p2 = m2 == 1 ? i2 : program[i2]
+			p += (p1 == 0 ? (p2 - p) : 3)
+		} else if opcode == 7 {
+			var p1 = m1 == 1 ? i1 : program[i1]
+			var p2 = m2 == 1 ? i2 : program[i2]
+			var i3 = program[p + 3]
+			d = i3
+			v = p1 < p2 ? 1l : 0l
+			p += 4
+		} else if opcode == 8 {
+			var p1 = m1 == 1 ? i1 : program[i1]
+			var p2 = m2 == 1 ? i2 : program[i2]
+			var i3 = program[p + 3]
+			d = i3
+			v = p1 == p2 ? 1l : 0l
+			p += 4
+		}
+		program[d] = v
+	}
+	programs_p[a] = p
+	output
+}
+
+let runphase = phase, program => {
+	var x = 0l
+	var programs = [program.copy(), program.copy(), program.copy(), program.copy(), program.copy()]
+	var programs_p = [0l,0l,0l,0l,0l]
+	var a = 0
+	for ph in phase {
+		x = run(programs[a], a++, programs_p, ph, x)
+		if x == -1l break
+	}
+	while {
+		for a in [0..4] {
+			let r = run(programs[a], a, programs_p, x, x)
+			if r == -1l return x
+			x = r
+		}
+	}
+	x
+}
+
+var m = 0l
+var phase = [5l,6l,7l,8l,9l]
+for s in [0..120] {
+	var o = runphase(phase, (data / ',').map(s => s.number()))
+	m = max(o, m)
+	phase.nextPermutation()
+}
+m
