@@ -1,2 +1,1 @@
-let layer = data.chunk(25 * 6).min(l => l.count('0'))
-layer.count('1') * layer.count('2')
+data.chunk(25 * 6).min(l => l.count('0')).apply(l => l.count('1') * l.count('2'))
