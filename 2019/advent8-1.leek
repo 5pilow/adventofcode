@@ -1,2 +1,2 @@
-let layer = data.chunk(25 * 6).min(l => l.frequencies()['0'.code()]).frequencies()
-layer['1'.code()] * layer['2'.code()]
+let layer = data.chunk(25 * 6).min(l => l.count('0'))
+layer.count('1') * layer.count('2')
