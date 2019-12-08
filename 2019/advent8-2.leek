@@ -1,0 +1,4 @@
+let W = 25, H = 6
+data.chunk(W * H).foldRight((l, r) => [for i, v in l {
+	v == '2' ? r[i] : int(v.number())
+}], [].fill(2, W * H)).chunk(W).iter(r => print(r.join()))
