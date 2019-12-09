@@ -1,6 +1,6 @@
 let run = program => {
 	var p = 0l
-	var INPUT = 2l
+	var INPUT = 1l
 	var relative_base = 0l
 	while (p < |program|) {
 		var inst = '' + program[p]
