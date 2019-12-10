@@ -1,0 +1,55 @@
+
+var lines = data.lines()
+var W = lines[0].size()
+var H = lines.size()
+let cells = lines.join()
+
+var los = lines, x1, y1, x2, y2 => {
+	var sx = |x1 - x2|
+	var sy = |y1 - y2|
+	if sx == 1 or sy == 1 return true
+	if sx == 0 {
+		var dy = y2 > y1 ? 1 : -1
+		for var b = y1 + dy; b != y2; b += dy {
+			if lines[b][x1] == '#' return false
+		}
+		return true
+	}
+	if sy == 0 {
+		var dx = x2 > x1 ? 1 : -1
+		for var a = x1 + dx; a != x2; a += dx {
+			if lines[y1][a] == '#' return false
+		}
+		return true
+	}
+	var d = gcd(sx, sy)
+	if d == 1 return true
+	var dx = x2 > x1 ? sx / d : -sx / d
+	var dy = y2 > y1 ? sy / d : -sy / d
+	for var a = x1 + dx var b = y1 + dy; a != x2; a += dx b += dy {
+		if lines[b][a] == '#' return false
+	}
+	return true
+}
+
+let loscount = i, cells => {
+	var x1 = i % W
+	var y1 = i \ H
+	var c = 0
+	for j, cell in cells {
+		if j == i || cell == '.' continue
+		var x2 = j % W
+		var y2 = j \ H
+		if los(lines, x1, y1, x2, y2) c++
+	}
+	c
+}
+
+var m = 0
+for i, cell in cells {
+	if cell == '.' continue
+	let c = loscount(i, cells)
+	m = max(c, m)
+	print(m)
+}
+m
