@@ -1,0 +1,38 @@
+var C = 448
+var CX = 19
+var CY = 11
+var lines = data.lines()
+var W = lines[0].size()
+var H = lines.size()
+let allcells = lines.join()
+
+var cells = [-1] * allcells.size()
+for i, cell in allcells {
+	if cell == '.' or i == C continue
+	cells[i] = i
+}
+var groups = [9.0:[0]]
+for cell in cells.filter(c => c >= 0) {
+    let x = cell % W
+    let y = cell \ H
+    var a = (atan2(CX - x, y - CY) + pi) % (2 * pi)
+    if !(a in groups) groups[a] = [-1]
+    groups[a].push(cell)
+}
+for g in groups {
+    g.sort((a, b) => {
+        var x1 = a % W, y1 = a \ H
+        var x2 = b % W, y2 = b \ H
+        return |x1 - CX| + |y1 - CY| > |x2 - CX| + |y2 - CY|
+    })
+}
+var i = 0
+while 1 {
+    for var a, g in groups {
+        if !|g| continue
+		let c = g.pop()
+		if ++i == 200 {
+			print(i + " => " + c + " " + (c % W) + "," + (c \ H))
+			return (c % W) * 100 + (c \ H)
+		}
+}
