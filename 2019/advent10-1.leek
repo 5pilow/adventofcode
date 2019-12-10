@@ -1,4 +1,3 @@
-
 var lines = data.lines()
 var W = lines[0].size()
 var H = lines.size()
@@ -50,6 +49,5 @@ for i, cell in cells {
 	if cell == '.' continue
 	let c = loscount(i, cells)
 	m = max(c, m)
-	print(m)
 }
 m
